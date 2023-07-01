@@ -1,4 +1,5 @@
 import moment from "moment";
+import { useSelector } from "react-redux";
 import {
   DetailTypography,
   GridStyled,
@@ -8,27 +9,22 @@ import {
 } from "./styles";
 
 export default function WeatherDetails() {
-  // useSelector here to listen to redux of the current weather detail
+  // Defaults to empty object / {}
+  const weatherData = useSelector((state) => state.weather?.weatherDetail);
 
-  const weatherData = {
-    city: "Johor",
-    country: "MY",
-    weather: "cloudy",
-    description: "scattered clouds",
-    temperature: "30˚c ~ 40˚c",
-    humidity: "58%",
-    time: "2023-07-01T16:13:01+08:00",
-  };
+  // Empty object is still truthy, therefore we need to check using length
+  let showHideFlag = Object.keys(weatherData).length > 0 ? true : false;
 
-  const formatDate = moment(weatherData.time).format("MMMM Do YYYY, h:mm:ss a");
+  const formatDate = moment().format("YYYY-MM-DD H:mm:ss A") ?? "";
 
-  return weatherData ? (
+  return showHideFlag ? (
     <OuterGrid>
       <LocationTypography variant={"h6"}>
-        {weatherData.city}, {weatherData.country}
+        {weatherData.name ?? "-"}, {weatherData.sys?.country ?? "-"}
       </LocationTypography>
       <WeatherTypography variant={"h3"} fontWeight={700}>
-        {weatherData.weather}
+        {(Array.isArray(weatherData.weather) && weatherData.weather[0]?.main) ??
+          "-"}
       </WeatherTypography>
       <GridStyled
         container
@@ -40,7 +36,9 @@ export default function WeatherDetails() {
         </GridStyled>
         <GridStyled item>
           <DetailTypography variant={"body1"}>
-            {weatherData.description}
+            {(Array.isArray(weatherData.weather) &&
+              weatherData.weather[0]?.description) ??
+              "-"}
           </DetailTypography>
         </GridStyled>
       </GridStyled>
@@ -54,7 +52,12 @@ export default function WeatherDetails() {
         </GridStyled>
         <GridStyled item>
           <DetailTypography variant={"body1"}>
-            {weatherData.temperature}
+            {weatherData.main?.temp_min
+              ? `${weatherData.main?.temp_min}˚C ~`
+              : "-"}
+            {weatherData.main?.temp_max
+              ? ` ${weatherData.main?.temp_max}˚C`
+              : "-"}
           </DetailTypography>
         </GridStyled>
       </GridStyled>
@@ -68,7 +71,7 @@ export default function WeatherDetails() {
         </GridStyled>
         <GridStyled item>
           <DetailTypography variant={"body1"}>
-            {weatherData.humidity}
+            {weatherData.main?.humidity + "%" ?? "-"}
           </DetailTypography>
         </GridStyled>
       </GridStyled>

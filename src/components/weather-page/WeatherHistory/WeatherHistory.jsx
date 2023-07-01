@@ -1,4 +1,9 @@
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteSearchHistory,
+  updateSearchKeyword,
+} from "../../../redux/weatherSlice";
 import {
   DividerStyled,
   EmptyStateTypography,
@@ -11,22 +16,14 @@ import {
   TrashIcon,
 } from "./styles";
 
+// does not need to change because of state
+const recordKeyName = "search-history-record";
+
 export default function WeatherHistory() {
   // access history from local storage
   // should also update search history everytime user searches something
 
-  const historyArr = [
-    {
-      city: "Johor",
-      country: "MY",
-      timeStamp: "2023-07-01T12:13:01+08:00",
-    },
-    {
-      city: "Kuala Lumpur",
-      country: "MY",
-      timeStamp: "2013-01-01T16:13:01+08:00",
-    },
-  ];
+  const historyArr = useSelector((state) => state.weather?.searchHistory);
 
   return (
     <OuterGrid>
@@ -34,7 +31,11 @@ export default function WeatherHistory() {
       <DividerStyled />
       {Array.isArray(historyArr) && historyArr.length > 0 ? (
         historyArr.map((history, index) => (
-          <SearchHistoryRecord recordIndex={index} record={history} />
+          <SearchHistoryRecord
+            key={`${recordKeyName}-${index + 1}`}
+            recordIndex={index}
+            record={history}
+          />
         ))
       ) : (
         <GridStyled container padding={"40px"} justifyContent={"center"}>
@@ -51,12 +52,25 @@ function SearchHistoryRecord(props) {
 
   const formatRecordTime = moment(record?.timeStamp).format("LTS");
 
+  const dispatch = useDispatch();
+
   async function handleSearch() {
     // trigger redux change
+    dispatch(
+      updateSearchKeyword({
+        city: record?.city ?? "",
+        country: record?.country ?? "",
+      })
+    );
   }
 
   async function handleDeleteRecord() {
-    // trigger redux change
+    dispatch(
+      deleteSearchHistory({
+        city: record?.city,
+        timeStamp: record?.timeStamp,
+      })
+    );
   }
 
   return (

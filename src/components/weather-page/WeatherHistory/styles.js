@@ -21,11 +21,11 @@ export const RecordTygraphy = styled(Typography)((props) => ({
 }));
 
 export const EmptyStateTypography = styled(Typography)((props) => ({
-  fontSize: "18px",
+  fontSize: "24px",
   fontWeight: 700,
 
   [props.theme.breakpoints.down("lg")]: {
-    fontSize: "14px",
+    fontSize: "20px",
   },
 }));
 

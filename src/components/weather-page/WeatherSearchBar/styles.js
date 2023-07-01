@@ -2,8 +2,7 @@ import {
   Button,
   Divider,
   Grid,
-  InputBase,
-  InputLabel,
+  TextField,
   Typography,
   colors,
 } from "@mui/material";
@@ -14,10 +13,10 @@ export const TypographyStyled = styled(Typography)((props) => ({
 }));
 
 export const DividerStyled = styled(Divider)((props) => ({
-  margin: "10px auto",
+  margin: "10px auto 20px auto",
 }));
 
-export const InputBaseStyled = styled(InputBase)((props) => ({
+export const TextFieldStyled = styled(TextField)((props) => ({
   width: "100%",
   "&.MuiInputBase-root": {
     border: `1px solid black`,
@@ -26,10 +25,10 @@ export const InputBaseStyled = styled(InputBase)((props) => ({
     paddingLeft: "10px",
     paddingRight: "10px",
   },
-}));
 
-export const InputLabelStyled = styled(InputLabel)((props) => ({
-  //
+  "& .MuiInputLabel-root": {
+    pointerEvents: "none",
+  },
 }));
 
 export const ButtonStyled = styled(Button)((props) => ({

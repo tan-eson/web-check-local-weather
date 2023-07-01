@@ -1,29 +1,71 @@
+import moment from "moment";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FETCH_WEATHER_FAILED } from "../../../redux/types";
+import { addSearchHistory, fetchWeather } from "../../../redux/weatherSlice";
 import {
   ButtonStyled,
   DividerStyled,
   ErrorGrid,
   GridStyled,
-  InputBaseStyled,
-  InputLabelStyled,
   OuterGridStyled,
+  TextFieldStyled,
   TypographyStyled,
 } from "./styles";
 
 export default function WeatherSearchBar() {
   const [inputCity, setInputCity] = useState("");
   const [inputCountry, setInputCountry] = useState("");
+  const [cityErr, setCityErr] = useState(false);
+  const [countryErr, setCountryErr] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  async function handleSearch() {
-    //
+  const dispatch = useDispatch();
+  const apiErrorMsg = useSelector((state) => state.weather.error);
 
-    // set show error if no api call returns error / no data
-    setShowError(true);
+  async function handleSearch() {
+    if (!inputCity) {
+      return setCityErr(true);
+    } else if (!inputCountry) {
+      return setCountryErr(true);
+    }
+
+    setShowError(false);
+    setCityErr(false);
+    setCountryErr(false);
+
+    try {
+      const weatherRes = await dispatch(
+        fetchWeather({
+          city: inputCity,
+          country: inputCountry,
+          apiKey: process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY,
+        })
+      );
+
+      // set show error if no api call returns error / no data
+      if (weatherRes.type === FETCH_WEATHER_FAILED) {
+        setShowError(true);
+      } else {
+        dispatch(
+          addSearchHistory({
+            city: inputCity,
+            country: inputCountry,
+            timeStamp: moment().format(),
+          })
+        );
+      }
+    } catch (error) {
+      setShowError(true);
+    }
   }
 
   async function handleClearInput() {
-    //
+    setInputCity("");
+    setInputCountry("");
+    setCityErr(false);
+    setCountryErr(false);
+    setShowError(false);
   }
 
   return (
@@ -34,23 +76,25 @@ export default function WeatherSearchBar() {
         container
         columns={12}
         flexDirection={"row"}
-        alignItems={"center"}
+        alignItems={"flex-start"}
         gap={1}
       >
         <GridStyled item xs={12} tablet={4} container>
-          <InputLabelStyled>City</InputLabelStyled>
-          <InputBaseStyled
-            placeholder="Enter City"
+          <TextFieldStyled
+            label="Enter City"
             value={inputCity}
             onChange={(event) => setInputCity(event.target?.value)}
+            error={cityErr}
+            helperText={cityErr && "City is required"}
           />
         </GridStyled>
         <GridStyled item xs={12} tablet={4} container>
-          <InputLabelStyled>Country</InputLabelStyled>
-          <InputBaseStyled
-            placeholder="Enter Country"
+          <TextFieldStyled
+            label="Enter Country"
             value={inputCountry}
             onChange={(event) => setInputCountry(event.target?.value)}
+            error={countryErr}
+            helperText={countryErr && "Country is required"}
           />
         </GridStyled>
         <GridStyled
@@ -59,6 +103,7 @@ export default function WeatherSearchBar() {
           tablet={3}
           container
           justifyContent={"space-evenly"}
+          alignItems={"center"}
           rowGap={"10px"}
         >
           <ButtonStyled variant="contained" onClick={handleSearch}>
@@ -71,7 +116,7 @@ export default function WeatherSearchBar() {
       </GridStyled>
       {showError ? (
         <ErrorGrid container>
-          <TypographyStyled>Not found</TypographyStyled>
+          <TypographyStyled>{apiErrorMsg ?? "Not found"}</TypographyStyled>
         </ErrorGrid>
       ) : null}
     </OuterGridStyled>
