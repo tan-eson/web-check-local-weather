@@ -28,7 +28,7 @@ export default function WeatherSearchBar() {
 
   return (
     <OuterGridStyled>
-      <TypographyStyled variant="h1">Today's Weather</TypographyStyled>
+      <TypographyStyled variant="h4">Today's Weather</TypographyStyled>
       <DividerStyled />
       <GridStyled
         container
@@ -36,7 +36,6 @@ export default function WeatherSearchBar() {
         flexDirection={"row"}
         alignItems={"center"}
         gap={1}
-        marginBottom={"10px"}
       >
         <GridStyled item xs={12} tablet={4} container>
           <InputLabelStyled>City</InputLabelStyled>
@@ -60,6 +59,7 @@ export default function WeatherSearchBar() {
           tablet={3}
           container
           justifyContent={"space-evenly"}
+          rowGap={"10px"}
         >
           <ButtonStyled variant="contained" onClick={handleSearch}>
             Search

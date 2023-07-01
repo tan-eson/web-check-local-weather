@@ -1,5 +1,11 @@
 import moment from "moment";
-import { GridStyled, OuterGrid, TypographyStyled } from "./styles";
+import {
+  DetailTypography,
+  GridStyled,
+  LocationTypography,
+  OuterGrid,
+  WeatherTypography,
+} from "./styles";
 
 export default function WeatherDetails() {
   // useSelector here to listen to redux of the current weather detail
@@ -18,24 +24,24 @@ export default function WeatherDetails() {
 
   return weatherData ? (
     <OuterGrid>
-      <TypographyStyled variant={"h6"}>
+      <LocationTypography variant={"h6"}>
         {weatherData.city}, {weatherData.country}
-      </TypographyStyled>
-      <TypographyStyled variant={"h3"} fontWeight={700}>
+      </LocationTypography>
+      <WeatherTypography variant={"h3"} fontWeight={700}>
         {weatherData.weather}
-      </TypographyStyled>
+      </WeatherTypography>
       <GridStyled
         container
         gridTemplateColumns={"repeat(2, 1fr)"}
         columnGap={"30px"}
       >
         <GridStyled item>
-          <TypographyStyled variant={"body1"}>Description:</TypographyStyled>
+          <DetailTypography variant={"body1"}>Description:</DetailTypography>
         </GridStyled>
         <GridStyled item>
-          <TypographyStyled variant={"body1"}>
+          <DetailTypography variant={"body1"}>
             {weatherData.description}
-          </TypographyStyled>
+          </DetailTypography>
         </GridStyled>
       </GridStyled>
       <GridStyled
@@ -44,12 +50,12 @@ export default function WeatherDetails() {
         columnGap={"30px"}
       >
         <GridStyled item>
-          <TypographyStyled variant={"body1"}>Temperature:</TypographyStyled>
+          <DetailTypography variant={"body1"}>Temperature:</DetailTypography>
         </GridStyled>
         <GridStyled item>
-          <TypographyStyled variant={"body1"}>
+          <DetailTypography variant={"body1"}>
             {weatherData.temperature}
-          </TypographyStyled>
+          </DetailTypography>
         </GridStyled>
       </GridStyled>
       <GridStyled
@@ -58,12 +64,12 @@ export default function WeatherDetails() {
         columnGap={"30px"}
       >
         <GridStyled item>
-          <TypographyStyled variant={"body1"}>Humidity:</TypographyStyled>
+          <DetailTypography variant={"body1"}>Humidity:</DetailTypography>
         </GridStyled>
         <GridStyled item>
-          <TypographyStyled variant={"body1"}>
+          <DetailTypography variant={"body1"}>
             {weatherData.humidity}
-          </TypographyStyled>
+          </DetailTypography>
         </GridStyled>
       </GridStyled>
       <GridStyled
@@ -72,10 +78,10 @@ export default function WeatherDetails() {
         columnGap={"30px"}
       >
         <GridStyled item>
-          <TypographyStyled variant={"body1"}>Time:</TypographyStyled>
+          <DetailTypography variant={"body1"}>Time:</DetailTypography>
         </GridStyled>
         <GridStyled item>
-          <TypographyStyled variant={"body1"}>{formatDate}</TypographyStyled>
+          <DetailTypography variant={"body1"}>{formatDate}</DetailTypography>
         </GridStyled>
       </GridStyled>
     </OuterGrid>
