@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@mui/material";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import {
@@ -11,6 +12,8 @@ import {
 export default function WeatherDetails() {
   // Defaults to empty object / {}
   const weatherData = useSelector((state) => state.weather?.weatherDetail);
+
+  const belowTablet = useMediaQuery("(max-width: 767px)");
 
   // Empty object is still truthy, therefore we need to check using length
   let showHideFlag = Object.keys(weatherData).length > 0 ? true : false;
@@ -29,7 +32,7 @@ export default function WeatherDetails() {
       <GridStyled
         container
         gridTemplateColumns={"repeat(2, 1fr)"}
-        columnGap={"30px"}
+        columnGap={belowTablet ? "25px" : "30px"}
       >
         <GridStyled item>
           <DetailTypography variant={"body1"}>Description:</DetailTypography>
@@ -45,7 +48,7 @@ export default function WeatherDetails() {
       <GridStyled
         container
         gridTemplateColumns={"repeat(2, 1fr)"}
-        columnGap={"30px"}
+        columnGap={belowTablet ? "25px" : "30px"}
       >
         <GridStyled item>
           <DetailTypography variant={"body1"}>Temperature:</DetailTypography>
@@ -64,7 +67,7 @@ export default function WeatherDetails() {
       <GridStyled
         container
         gridTemplateColumns={"repeat(2, 1fr)"}
-        columnGap={"30px"}
+        columnGap={belowTablet ? "25px" : "30px"}
       >
         <GridStyled item>
           <DetailTypography variant={"body1"}>Humidity:</DetailTypography>
@@ -78,7 +81,7 @@ export default function WeatherDetails() {
       <GridStyled
         container
         gridTemplateColumns={"repeat(2, 1fr)"}
-        columnGap={"30px"}
+        columnGap={belowTablet ? "25px" : "30px"}
       >
         <GridStyled item>
           <DetailTypography variant={"body1"}>Time:</DetailTypography>

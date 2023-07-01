@@ -36,7 +36,7 @@ export const DetailTypography = styled(Typography)((props) => ({
   },
 
   [props.theme.breakpoints.down("tablet")]: {
-    fontSize: "16px",
+    fontSize: "15px",
   },
 }));
 
@@ -49,9 +49,17 @@ export const OuterGridStyled = styled(Grid)((props) => ({
 }));
 
 export const GridStyled = styled(Grid)((props) => ({
-  minWidth: "100px",
+  minWidth: "120px",
+
+  [props.theme.breakpoints.down("tablet")]: {
+    minWidth: "95px",
+  },
 }));
 
 export const OuterGrid = styled(Grid)((props) => ({
   padding: "0px 40px 20px",
+
+  [props.theme.breakpoints.down("tablet")]: {
+    padding: "0px 10px 20px",
+  },
 }));

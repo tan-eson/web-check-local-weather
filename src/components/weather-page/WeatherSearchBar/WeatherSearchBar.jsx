@@ -96,6 +96,7 @@ export default function WeatherSearchBar() {
         flexDirection={"row"}
         alignItems={"flex-start"}
         gap={1}
+        rowGap={"20px"}
       >
         <GridStyled item xs={12} tablet={4} container>
           <TextFieldStyled
