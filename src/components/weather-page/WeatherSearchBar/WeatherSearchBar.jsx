@@ -1,12 +1,13 @@
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Severity } from "../../../helpers/constants";
+import { toggleShowSnackbar } from "../../../redux/snackbarSlice";
 import { FETCH_WEATHER_FAILED } from "../../../redux/types";
 import { addSearchHistory, fetchWeather } from "../../../redux/weatherSlice";
 import {
   ButtonStyled,
   DividerStyled,
-  ErrorGrid,
   GridStyled,
   OuterGridStyled,
   TextFieldStyled,
@@ -18,10 +19,10 @@ export default function WeatherSearchBar() {
   const [inputCountry, setInputCountry] = useState("");
   const [cityErr, setCityErr] = useState(false);
   const [countryErr, setCountryErr] = useState(false);
-  const [showError, setShowError] = useState(false);
 
   const dispatch = useDispatch();
-  const apiErrorMsg = useSelector((state) => state.weather.error);
+  const reduxCity = useSelector((state) => state.weather.targetCity);
+  const reduxCountry = useSelector((state) => state.weather.targetCountry);
 
   async function handleSearch() {
     if (!inputCity) {
@@ -30,7 +31,6 @@ export default function WeatherSearchBar() {
       return setCountryErr(true);
     }
 
-    setShowError(false);
     setCityErr(false);
     setCountryErr(false);
 
@@ -45,7 +45,13 @@ export default function WeatherSearchBar() {
 
       // set show error if no api call returns error / no data
       if (weatherRes.type === FETCH_WEATHER_FAILED) {
-        setShowError(true);
+        dispatch(
+          toggleShowSnackbar({
+            open: true,
+            message: weatherRes.error?.message ?? "Weather forecast not found",
+            severity: Severity.ERROR,
+          })
+        );
       } else {
         dispatch(
           addSearchHistory({
@@ -56,17 +62,29 @@ export default function WeatherSearchBar() {
         );
       }
     } catch (error) {
-      setShowError(true);
+      dispatch(
+        toggleShowSnackbar({
+          open: true,
+          message: "Error fetching weather data!",
+          severity: Severity.ERROR,
+        })
+      );
     }
   }
 
-  async function handleClearInput() {
+  function handleClearInput() {
     setInputCity("");
     setInputCountry("");
     setCityErr(false);
     setCountryErr(false);
-    setShowError(false);
   }
+
+  // sole purpose of this is to populate the textfield
+  // when search button is clicked in history section
+  useEffect(() => {
+    setInputCity(reduxCity);
+    setInputCountry(reduxCountry);
+  }, [reduxCity, reduxCountry]);
 
   return (
     <OuterGridStyled>
@@ -114,11 +132,6 @@ export default function WeatherSearchBar() {
           </ButtonStyled>
         </GridStyled>
       </GridStyled>
-      {showError ? (
-        <ErrorGrid container>
-          <TypographyStyled>{apiErrorMsg ?? "Not found"}</TypographyStyled>
-        </ErrorGrid>
-      ) : null}
     </OuterGridStyled>
   );
 }

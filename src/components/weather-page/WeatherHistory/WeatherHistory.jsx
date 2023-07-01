@@ -1,7 +1,11 @@
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import { Severity } from "../../../helpers/constants";
+import { toggleShowSnackbar } from "../../../redux/snackbarSlice";
+import { FETCH_WEATHER_FAILED } from "../../../redux/types";
 import {
   deleteSearchHistory,
+  fetchWeather,
   updateSearchKeyword,
 } from "../../../redux/weatherSlice";
 import {
@@ -62,6 +66,35 @@ function SearchHistoryRecord(props) {
         country: record?.country ?? "",
       })
     );
+
+    try {
+      const weatherRes = await dispatch(
+        fetchWeather({
+          city: record?.city ?? "",
+          country: record?.country ?? "",
+          apiKey: process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY,
+        })
+      );
+
+      // set show error if no api call returns error / no data
+      if (weatherRes.type === FETCH_WEATHER_FAILED) {
+        dispatch(
+          toggleShowSnackbar({
+            open: true,
+            message: weatherRes.error?.message ?? "Weather forecast not found",
+            severity: Severity.ERROR,
+          })
+        );
+      }
+    } catch (error) {
+      dispatch(
+        toggleShowSnackbar({
+          open: true,
+          message: "Error fetching weather data!",
+          severity: Severity.ERROR,
+        })
+      );
+    }
   }
 
   async function handleDeleteRecord() {

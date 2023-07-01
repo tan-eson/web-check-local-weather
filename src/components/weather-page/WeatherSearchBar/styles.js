@@ -1,11 +1,4 @@
-import {
-  Button,
-  Divider,
-  Grid,
-  TextField,
-  Typography,
-  colors,
-} from "@mui/material";
+import { Button, Divider, Grid, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const TypographyStyled = styled(Typography)((props) => ({
@@ -53,16 +46,4 @@ export const OuterGridStyled = styled(Grid)((props) => ({
 
 export const GridStyled = styled(Grid)((props) => ({
   //
-}));
-
-export const ErrorGrid = styled(Grid)((props) => ({
-  color: colors.red,
-  padding: "5px",
-  width: "100%",
-  backgroundColor: "#f75443",
-  border: `1px solid ${colors.red}`,
-}));
-
-export const ErrorTypographyStyled = styled(Typography)((props) => ({
-  color: colors.red,
 }));
