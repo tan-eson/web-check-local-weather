@@ -53,6 +53,7 @@ export default function WeatherSearchBar() {
           })
         );
       } else {
+        // only add search history if the fetch was a success
         dispatch(
           addSearchHistory({
             city: inputCity,
