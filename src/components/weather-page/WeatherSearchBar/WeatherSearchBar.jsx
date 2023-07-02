@@ -101,6 +101,7 @@ export default function WeatherSearchBar() {
       >
         <GridStyled item xs={12} tablet={4} container>
           <TextFieldStyled
+            size="small"
             label="Enter City"
             value={inputCity}
             onChange={(event) => setInputCity(event.target?.value)}
@@ -110,6 +111,7 @@ export default function WeatherSearchBar() {
         </GridStyled>
         <GridStyled item xs={12} tablet={4} container>
           <TextFieldStyled
+            size="small"
             label="Enter Country"
             value={inputCountry}
             onChange={(event) => setInputCountry(event.target?.value)}
