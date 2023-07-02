@@ -19,7 +19,12 @@ export default function SharedSnackbar() {
   }
 
   return (
-    <Snackbar open={showSnackbar} autoHideDuration={4000} onClose={handleClose}>
+    <Snackbar
+      open={showSnackbar}
+      autoHideDuration={4000}
+      onClose={handleClose}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+    >
       <Alert severity={snackbarSeverity}>{snackbarMsg}</Alert>
     </Snackbar>
   );
