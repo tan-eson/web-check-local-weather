@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Weather App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Get the current weather detail for every city around the world. Created using [Create-React-App](https://github.com/facebook/create-react-app), while also utilising libraries such as of `Redux Toolkit` and `Material-UI`.
 
 ## Available Scripts
 
@@ -39,32 +39,43 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+### `yarn format:fix`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Runs prettier format for the entire project folder.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## App Highlight
 
-### Code Splitting
+- Get current weather information using AJAX
+- Persist most recent 5 searches even on page refresh
+- Able to delete any record within the search history
+- Able to retrieve and search using each record in search history
+- `UI` responsive to all screen sizes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### For the devs
 
-### Analyzing the Bundle Size
+- Uses redux toolkit to create store, reducer and action
+- Appropriate separation of constants and Shared Components
+- Uses Redux hydration technique to keep search history in redux upon refresh
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+#### Folder Structure
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+.
+├── src
+│ ├── assets
+│ ├── components
+│ │ └── Weather Details
+│ │ └── Weather History
+│ │ └── Weather SearchBar
+│ ├── helpers
+│ │ └── constants
+│ ├── pages
+│ │ └── weather-page (wrapper for components)
+│ ├── redux
+│ │ └── Snackbar slice
+│ │ └── Weather slice
+│ │ └── store
+│ │ └── types
+│ └── ...
+└── ...
+```
