@@ -2,6 +2,26 @@
 
 Get the current weather detail for every city around the world. Created using [Create-React-App](https://github.com/facebook/create-react-app), while also utilising libraries such as of `Redux Toolkit` and `Material-UI`.
 
+## API KEY for [openweathermap.org](https://openweathermap.org/)
+
+Before running the app, make sure you have a `.env.local` containing the API key. Otherwise, any API call to fetch weather information will not work.
+
+You should place the `.env.local` in this directory:
+
+```
+.
+├── public
+├── src
+├── README.md
+├── .env.local
+└── ...
+```
+
+Paste the following into your `.env.local`:
+`REACT_APP_OPEN_WEATHER_MAP_API_KEY={YOUR_API_KEY_HERE}`
+
+Don't forget to replace `YOUR_API_KEY_HERE` with your actual API key!
+
 ## Available Scripts
 
 In the project directory, you can run:
