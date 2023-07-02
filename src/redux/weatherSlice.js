@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { LOCAL_STORAGE_SEARCH_HISTORY } from "../helpers/constants";
 
 const initialState = {
   targetCity: "",
@@ -35,6 +36,9 @@ export const weatherSlice = createSlice({
       state.targetCity = city ?? "";
       state.targetCountry = country ?? "";
     },
+    hydateSearchHistory: (state, action) => {
+      state.searchHistory = action.payload;
+    },
     addSearchHistory: (state, action) => {
       /**
        * object should have format like this
@@ -49,7 +53,10 @@ export const weatherSlice = createSlice({
 
       state.searchHistory = newArr;
 
-      localStorage.setItem("search-history", JSON.stringify(newArr));
+      localStorage.setItem(
+        LOCAL_STORAGE_SEARCH_HISTORY,
+        JSON.stringify(newArr)
+      );
     },
     deleteSearchHistory: (state, action) => {
       const { city: _payloadCity, timeStamp: _payloadTimeStamp } =
@@ -66,7 +73,10 @@ export const weatherSlice = createSlice({
       // filter out target record from redux
       state.searchHistory = filteredArr;
 
-      localStorage.setItem("search-history", JSON.stringify(filteredArr));
+      localStorage.setItem(
+        LOCAL_STORAGE_SEARCH_HISTORY,
+        JSON.stringify(filteredArr)
+      );
     },
   },
   extraReducers: (builder) => {
@@ -83,8 +93,12 @@ export const weatherSlice = createSlice({
   },
 });
 
-export const { updateSearchKeyword, addSearchHistory, deleteSearchHistory } =
-  weatherSlice.actions;
+export const {
+  updateSearchKeyword,
+  hydateSearchHistory,
+  addSearchHistory,
+  deleteSearchHistory,
+} = weatherSlice.actions;
 
 export default weatherSlice.reducer;
 

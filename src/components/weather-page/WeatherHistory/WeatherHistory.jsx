@@ -1,11 +1,16 @@
 import moment from "moment";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Severity } from "../../../helpers/constants";
+import {
+  LOCAL_STORAGE_SEARCH_HISTORY,
+  Severity,
+} from "../../../helpers/constants";
 import { toggleShowSnackbar } from "../../../redux/snackbarSlice";
 import { FETCH_WEATHER_FAILED } from "../../../redux/types";
 import {
   deleteSearchHistory,
   fetchWeather,
+  hydateSearchHistory,
   updateSearchKeyword,
 } from "../../../redux/weatherSlice";
 import {
@@ -24,17 +29,31 @@ import {
 const recordKeyName = "search-history-record";
 
 export default function WeatherHistory() {
-  // access history from local storage
-  // should also update search history everytime user searches something
+  const [localHistory, setLocalHistory] = useState([]);
 
   const historyArr = useSelector((state) => state.weather?.searchHistory);
+
+  const dispatch = useDispatch();
+
+  // retrieve local storage history, and hydrate redux once it is ready
+  // This will allow every refresh to persist search history until local storage is cleared
+  useEffect(() => {
+    const localStrData = localStorage.getItem(LOCAL_STORAGE_SEARCH_HISTORY)
+      ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_SEARCH_HISTORY))
+      : [];
+    dispatch(hydateSearchHistory(localStrData));
+  }, [dispatch]);
+
+  useEffect(() => {
+    setLocalHistory(historyArr);
+  }, [historyArr]);
 
   return (
     <OuterGrid>
       <TitleTypography variant="h4">Search History</TitleTypography>
       <DividerStyled />
-      {Array.isArray(historyArr) && historyArr.length > 0 ? (
-        historyArr.map((history, index) => (
+      {Array.isArray(localHistory) && localHistory.length > 0 ? (
+        localHistory.map((history, index) => (
           <SearchHistoryRecord
             key={`${recordKeyName}-${index + 1}`}
             recordIndex={index}
