@@ -1,9 +1,5 @@
-import { Divider, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-
-export const TypographyStyled = styled(Typography)((props) => ({
-  textTransform: "capitalize",
-}));
 
 export const LocationTypography = styled(Typography)((props) => ({
   textTransform: "capitalize",
@@ -38,14 +34,6 @@ export const DetailTypography = styled(Typography)((props) => ({
   [props.theme.breakpoints.down("tablet")]: {
     fontSize: "15px",
   },
-}));
-
-export const DividerStyled = styled(Divider)((props) => ({
-  //
-}));
-
-export const OuterGridStyled = styled(Grid)((props) => ({
-  //
 }));
 
 export const GridStyled = styled(Grid)((props) => ({

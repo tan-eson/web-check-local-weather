@@ -1,4 +1,3 @@
-import "./App.css";
 import WeatherPage from "./pages/weather-page";
 
 function App() {

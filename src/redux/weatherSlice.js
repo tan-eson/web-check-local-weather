@@ -11,7 +11,7 @@ const initialState = {
 
 const fetchWeather = createAsyncThunk(
   "weatherSlice/fetchWeather",
-  async (payload, thunkApi) => {
+  async (payload) => {
     const { city, country, apiKey } = payload;
 
     // get weather data
@@ -50,18 +50,21 @@ export const weatherSlice = createSlice({
        */
 
       const newArr = [...state.searchHistory, action.payload];
-
       state.searchHistory = newArr;
+
+      // limit to storing only 5 history, saves storage in local storage
+      const lastFiveHistory = newArr.slice(-5);
 
       localStorage.setItem(
         LOCAL_STORAGE_SEARCH_HISTORY,
-        JSON.stringify(newArr)
+        JSON.stringify(lastFiveHistory)
       );
     },
     deleteSearchHistory: (state, action) => {
       const { city: _payloadCity, timeStamp: _payloadTimeStamp } =
         action.payload;
 
+      // filter out target record from redux
       const filteredArr = [
         ...state.searchHistory.filter(
           (record) =>
@@ -69,24 +72,24 @@ export const weatherSlice = createSlice({
             record.timeStamp !== _payloadTimeStamp
         ),
       ];
-
-      // filter out target record from redux
       state.searchHistory = filteredArr;
+
+      const lastFiveHistory = filteredArr.slice(-5);
 
       localStorage.setItem(
         LOCAL_STORAGE_SEARCH_HISTORY,
-        JSON.stringify(filteredArr)
+        JSON.stringify(lastFiveHistory)
       );
     },
   },
   extraReducers: (builder) => {
     builder
-      // condition for if fetch weather succeeds
+      // condition for if fetch weather API succeeds
       .addCase(fetchWeather.fulfilled, (state, action) => {
         state.weatherDetail = action.payload ?? state.weatherDetail;
         state.error = null;
       })
-      // if fetch weather fail, update error state
+      // if fetch weather API does not return code 200, update error state
       .addCase(fetchWeather.rejected, (state, action) => {
         state.error = action.error.message;
       });
