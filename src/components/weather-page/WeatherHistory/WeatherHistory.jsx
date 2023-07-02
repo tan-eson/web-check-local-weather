@@ -150,7 +150,7 @@ function SearchHistoryRecord(props) {
           alignItems={"center"}
           justifyContent={"flex-end"}
           maxWidth={"200px"}
-          gap={"7px"}
+          gap={"5px"}
         >
           <RecordTygraphy variant="body1">{formatRecordTime}</RecordTygraphy>
           <IconButtonStyled onClick={handleSearch}>

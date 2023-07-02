@@ -1,8 +1,23 @@
-import { Button, Divider, Grid, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  Grid,
+  TextField,
+  Typography,
+  colors,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const TypographyStyled = styled(Typography)((props) => ({
-  //
+  fontSize: "28px",
+
+  [props.theme.breakpoints.down("lg")]: {
+    fontSize: "24px",
+  },
+
+  [props.theme.breakpoints.down("tablet")]: {
+    fontSize: "22px",
+  },
 }));
 
 export const DividerStyled = styled(Divider)((props) => ({
@@ -11,16 +26,19 @@ export const DividerStyled = styled(Divider)((props) => ({
 
 export const TextFieldStyled = styled(TextField)((props) => ({
   width: "100%",
-  "&.MuiInputBase-root": {
-    border: `1px solid black`,
+
+  ".MuiInputBase-root": {
     borderRadius: "4px",
-    minHeight: "50px",
     paddingLeft: "10px",
     paddingRight: "10px",
   },
 
-  "& .MuiInputLabel-root": {
-    pointerEvents: "none",
+  ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    borderColor: "black",
+  },
+
+  ".MuiInputLabel-root.Mui-focused": {
+    color: "black",
   },
 }));
 
@@ -29,6 +47,14 @@ export const ButtonStyled = styled(Button)((props) => ({
   minWidth: "150px",
   padding: "8px",
   textTransform: "capitalize",
+  border: `1px solid ${colors.cyan[700]}`,
+  backgroundColor: colors.cyan[700],
+
+  "&:hover": {
+    backgroundColor: colors.cyan[800],
+    boxShadow: "3px 3px 0px 0px rgba(0,0,0,1)",
+    border: "1px solid black",
+  },
 
   [props.theme.breakpoints.down("lg")]: {
     minWidth: "80px",
